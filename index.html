@@ -110,19 +110,18 @@
         }
         
         /* Κεντρικό πλαίσιο με το background */
-        .container { 
-            opacity: 0; /* Αρχικά τελείως αόρατο */
-            pointer-events: none; /* Δεν δέχεται κλικ όταν είναι κρυφό */
-            width:100%; 
-            height:450px; 
-            position:relative; 
-            overflow:hidden; 
-            border-radius:28px; 
-            background: linear-gradient(rgba(0,0,0,.35), rgba(0,0,0,.65)), url('https://xatimg.com/image/3Hzrpugf7ede.png') center/cover; 
-            box-shadow: 0 0 40px rgba(184, 134, 11, .5); 
-            transition: opacity 0.4s ease-in-out; /* Ομαλό εφέ */
-        }
-        
+.container { 
+    opacity: 0; 
+    pointer-events: none; 
+    width:100%; 
+    height:450px; 
+    position:relative; 
+    overflow:hidden; 
+    border-radius:28px; 
+    background: linear-gradient(rgba(0,0,0,.35), rgba(0,0,0,.65)), url('https://xatimg.com/image/3Hzrpugf7ede.png') center/cover; 
+    box-shadow: 0 0 40px rgba(184, 134, 11, .5); 
+    transition: opacity 0.8s ease-in-out; /* ΕΔΩ ΑΛΛΑΖΕΤΕ ΣΕ 0.8s ΓΙΑ ΠΙΟ ΓΛΥΚΟ ΕΦΕ */
+}    
         #sparkleCanvas { position:absolute; inset:0; border-radius:28px; pointer-events:none; z-index:10; }
         .container:before { content:""; position:absolute; inset:0; border:3px solid transparent; border-radius:28px; background:linear-gradient(90deg,#b8860b,#ff0000,#b8860b) border-box;-webkit-mask:linear-gradient(#fff 0 0) padding-box,linear-gradient(#fff 0 0); -webkit-mask-composite:xor; z-index:11; }
         
