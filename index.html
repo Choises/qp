@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <style>
+        body { transition: opacity ease-in 0.2s; } 
+        body[unresolved] { opacity: 0; display: block; overflow: hidden; position: relative; } 
+    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>𝕸𝖚𝖘ἱ𝖈💕𝕮𝖍𝖔ἱ𝖈𝖊𝖘</title>
+    <script>
+        // Bllokimi i menu-së së djathtë (Right Click)
+        document.addEventListener('contextmenu', e => e.preventDefault());
+
+        // Bllokimi i shkurtoreve të tastierës për inspektim (F12, Ctrl+Shift+I, Ctrl+U, etj)
+        document.addEventListener('keydown', e => {
+            if (e.key === 'F12' || 
+                (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'C' || e.key === 'J')) || 
+                (e.ctrlKey && e.key === 'U')) {
+                e.preventDefault();
+                return false;
+            }
+        });
+    </script>
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; font-family:Arial,sans-serif; -webkit-user-select:none; user-select:none; }
+        
+        /* Διάταξη Σελίδας */
+        body { 
+    display:flex; 
+    flex-direction: column;
+    justify-content: flex-start; /* ΕΔΩ ΑΛΛΑΖΕΤΕ ΑΥΤΟ ΣΕ flex-start */
+    align-items:center; 
+    gap: 0px;
+    height: 100vh;      
+    width: 100vw;       
+    overflow: hidden;   
+   
+    padding-top: 55px;           /* ΕΔΩ ΜΕΙΩΝΕΤΕ ΤΗΝ ΑΠΟΣΤΑΣΗ */
+}
+
+        /* Wrapper ευθυγράμμισης στα 800px */
+        .wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start; /* Στοίχιση τέρμα αριστερά */
+            width: 100%;
+            max-width: 800px;
+            gap: 2px;
+        }
+
+        /* WEB PLAYER (Πάνω Αριστερά) */
+        .web-player {
+            display: flex;
+            align-items: center;
+            gap: 0px;
+          background: rgba(0, 255, 255, 0.4);  
+            padding: 1px 10px;
+            border-radius: 50px;
+            border: 2px solid #b8860b;
+            box-shadow: 0 0 15px rgba(184, 134, 11, 0.3);
+            z-index: 100;
+        }
+/* Αλλαγή φόντου και λάμψης του Player στο Hover */
+.web-player:hover {
+    background: rgba(184, 134, 11, 0.2); /* Απαλό χρυσό ημιδιαφανές φόντο */
+    border-color: #ff0000;              /* Το περίγραμμα γίνεται κόκκινο */
+    box-shadow: 0 0 25px rgba(255, 0, 0, 0.6); /* Κόκκινη Neon λάμψη */
+    transition: all 0.4s ease-in-out;    /* Ομαλή μετάβαση */
+}
+        .play-btn {
+            width: 30px;
+            height: 30px;
+            border: none;
+            border-radius: 50%;
+            background: #ff0000;
+            color: #fff;
+            font-size: 18px;
+            cursor: pointer;
+            box-shadow: 0 0 10px #ff0000;
+            transition: 0.3s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .play-btn:hover { transform: scale(1.05); }
+
+        .vol-container {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #b8860b;
+        }
+
+        input[type=range] {
+            -webkit-appearance: none;
+            width: 90px;
+            height: 6px;
+            background: #444;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 14px;
+            height: 14px;
+            background: #ff0000;
+            border-radius: 50%;
+            box-shadow: 0 0 5px #ff0000;
+        }
+        
+        /* Κεντρικό πλαίσιο με το background */
+        .container { 
+            opacity: 0; /* Αρχικά τελείως αόρατο */
+            pointer-events: none; /* Δεν δέχεται κλικ όταν είναι κρυφό */
+            width:100%; 
+            height:450px; 
+            position:relative; 
+            overflow:hidden; 
+            border-radius:28px; 
+            background: linear-gradient(rgba(0,0,0,.35), rgba(0,0,0,.65)), url('https://xatimg.com/image/3Hzrpugf7ede.png') center/cover; 
+            box-shadow: 0 0 40px rgba(184, 134, 11, .5); 
+            transition: opacity 0.4s ease-in-out; /* Ομαλό εφέ */
+        }
+        
+        #sparkleCanvas { position:absolute; inset:0; border-radius:28px; pointer-events:none; z-index:10; }
+        .container:before { content:""; position:absolute; inset:0; border:3px solid transparent; border-radius:28px; background:linear-gradient(90deg,#b8860b,#ff0000,#b8860b) border-box;-webkit-mask:linear-gradient(#fff 0 0) padding-box,linear-gradient(#fff 0 0); -webkit-mask-composite:xor; z-index:11; }
+        
+        /* Τίτλος στην Κορυφή με Τέντωμα (Zoom) και Αλλαγή Χρωμάτων */
+        .top-title {
+            position: absolute;
+            top: 25px;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            font-size: 26px;
+            font-weight: 900;
+            z-index: 15;
+            display: inline-block;
+            transform-origin: center;
+            animation: color-cycle 5s infinite, stretch-pulse 3s infinite ease-in-out;
+        }
+
+        /* Κυλιόμενο Old German Κείμενο */
+        .marquee-container {
+            position: absolute;
+            top: 75px;
+            left: 15px;
+            right: 15px;
+            overflow: hidden;
+            white-space: nowrap;
+            z-index: 15;
+        }
+        .marquee-german {
+            display: inline-block;
+            font-size: 24px;
+            font-weight: bold;
+            animation: scroll-bounce 14s ease-in-out infinite alternate, color-cycle 5s infinite;
+        }
+
+        /* Εφέ για την αλλαγή χρωμάτων */
+        @keyframes color-cycle { 0% {color: #b8860b;} 33% {color: #ff0000;} 66% {color: #00ffff;} 100% {color: #b8860b;} }
+        
+        /* Εφέ για το Τέντωμα Μέσα-Έξω */
+        @keyframes stretch-pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+        }
+
+        /* ΝΕΟ Εφέ: Κίνηση δεξιά-αριστερά και τούμπαλιν εναλλάξ */
+        @keyframes scroll-bounce {
+            from { transform: translateX(100%); }
+            to { transform: translateX(-100%); }
+        }
+
+        /* Παλλόμενες Μπάρες (Equalizer) */
+        .eq { position:absolute; bottom:30px; left:40px; height:50px; display:flex; gap:4px; z-index: 12; }
+        .eq span { width:8px; animation:eq 1s infinite ease-in-out, eq-colors 3s infinite linear; }
+        .eq span:nth-child(2) { animation-delay:.1s }
+        .eq span:nth-child(3) { animation-delay:.2s }
+        .eq span:nth-child(4) { animation-delay:.3s }
+        .eq span:nth-child(5) { animation-delay:.4s }
+        .eq span:nth-child(6) { animation-delay:.5s }
+        @keyframes eq { 0%,100% {height:10px} 50% {height:45px} }
+        @keyframes eq-colors { 0% {background: #ff0000;} 25% {background: #b8860b;} 50% {background: #8b4513;} 75% {background: #ff8c00;} 100% {background: #ff0000;} }
+
+        /* Ρολόι και Ημερομηνία */
+        .datetime { position:absolute; bottom:20px; right:20px; text-align:right; font-weight:bold; font-size:16px; z-index: 20; animation: color-cycle 5s infinite; }
+
+        /* Περιστρεφόμενος Κύκλος με Εικόνα */
+        .dj-container { position: absolute; right: 40px; top: 145px; width: 180px; height: 180px; border-radius: 50%; border: 4px solid #b8860b; background-size: cover; background-position: center; box-shadow: 0 0 20px #b8860b; animation: rotateCircle 10s linear infinite; z-index: 12; }
+        @keyframes rotateCircle { from {transform: rotate(0deg);} to {transform: rotate(360deg);} }
+    </style>
+</head>
+<body>
+
+    <div class="wrapper">
+        <!-- WEB PLAYER ΠΑΝΩ ΑΡΙΣΤΕΡΑ -->
+        <div class="web-player">
+            <button class="play-btn" id="playBtn">▶</button>
+            <div class="vol-container">
+                <span>🔊</span>
+                <input type="range" id="volControl" min="0" max="1" step="0.01" value="0.5">
+            </div>
+        </div>
+
+        <!-- ΚΕΝΤΡΙΚΟ ΠΛΑΙΣΙΟ -->
+        <div class="container" id="playerCanvasBox">
+            <!-- Εφέ με Αστεράκια -->
+            <canvas id="sparkleCanvas" width="800" height="450"></canvas> 
+
+            <!-- Τίτλος με Τέντωμα -->
+            <div class="top-title">☆☆☆Enjoy Your Music Time!☆☆☆</div>
+
+            <!-- Κυλιόμενο Κείμενο Old German με Εναλλάξ Κίνηση -->
+            <div class="marquee-container">
+                <div class="marquee-german">𝕸𝖚𝖘ἱ𝖈💕𝕮𝖍𝖔ἱ𝖈𝖊𝖘</div>
+            </div>
+
+            <!-- Παλλόμενες Μπάρες -->
+            <div class="eq"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+
+            <!-- Ρολόι -->
+            <div class="datetime" id="datetime"></div>
+
+            <!-- Περιστρεφόμενος Κύκλος -->
+            <div class="dj-container" id="djAvatar" style="background-image: url('https://xatimg.com/image/wN0GwHPQejWO.png');"></div>
+        </div>
+    </div>
+
+    <!-- AUDIO ΣΤΟΙΧΕΙΟ -->
+    <audio id="audioStream"></audio>
+
+    <script>
+        const audio = document.getElementById('audioStream');
+        const playBtn = document.getElementById('playBtn');
+        const volControl = document.getElementById('volControl');
+        const playerCanvasBox = document.getElementById('playerCanvasBox');
+
+        // Ρύθμιση έντασης ήχου
+        volControl.oninput = () => { audio.volume = volControl.value; };
+
+        // Λειτουργικότητα Play/Pause με Άμεση Εμφάνιση μέσω Javascript Style Injection
+               // Λειτουργικότητα Play/Pause με Άμεση Εμφάνιση μέσω Javascript Style Injection
+        playBtn.onclick = () => {
+            if(audio.paused) {
+                // ΕΔΩ ΤΟΠΟΘΕΤΗΣΤΕ ΤΟ URL ΤΟΥ ΡΑΔΙΟΦΩΝΟΥ (π.χ. "https://stream.rcast.net/200586")
+                audio.src = "https://stream.rcast.net/200586"; 
+                audio.volume = volControl.value;
+                
+                // Εμφάνιση του Καμβά (Fade In)
+                playerCanvasBox.style.opacity = "1";
+                playerCanvasBox.style.pointerEvents = "auto";
+                playBtn.innerText = "■";
+
+                audio.play().catch(e => {
+                    console.log("Audio URL is empty, visual canvas loaded successfully.");
+                });
+            } else {
+                audio.pause(); // Σταματάει τον ήχο γλυκά
+                playBtn.innerText = "▶";
+                
+                // Εξαφάνιση του Καμβά (Fade Out)
+                playerCanvasBox.style.opacity = "0";
+                playerCanvasBox.style.pointerEvents = "none";
+            }
+        };
+
+        // Λειτουργία Ρολογιού
+function updateDateTime() {const now = new Date();document.getElementById('datetime').innerHTML = now.toLocaleTimeString() + '' + now.toLocaleDateString();}setInterval(updateDateTime, 1000);updateDateTime();// Λειτουργία Sparkle Εφέconst canvas = document.getElementById('sparkleCanvas');const ctx = canvas.getContext('2d');canvas.width = 800; canvas.height = 450;let particles = [];function animate() {ctx.clearRect(0, 0, canvas.width, canvas.height);particles.forEach((p, i) => {p.x += p.vx; p.y += p.vy; p.alpha -= 0.02;ctx.fillStyle = rgba(184, 134, 11, ${p.alpha});ctx.beginPath(); ctx.arc(p.x, p.y, 2, 0, Math.PI*2); ctx.fill();if(p.alpha <= 0) particles.splice(i, 1);});requestAnimationFrame(animate);}animate();playerCanvasBox.addEventListener('mousemove', (e) => {const rect = playerCanvasBox.getBoundingClientRect();for(let i=0; i<3; i++) {particles.push({x: e.clientX - rect.left,y: e.clientY - rect.top,vx: (Math.random() - 0.5) * 2,vy: (Math.random() - 0.5) * 2,alpha: 1});}});
+</script>
+<script>
+  (function(){
+    var message = "𝕸𝖚𝖘𝖎𝖈💕𝕮𝖍𝖔𝖎𝖈ὲ𝖘";
+
+    // Μπλοκάρισμα Δεξιού Κλικ
+    document.oncontextmenu = function() { alert(message); return false; };
+    document.addEventListener('dragstart', e => e.preventDefault());
+    
+    // Μπλοκάρισμα Πλήκτρων DevTools & Προβολής Κώδικα
+    document.addEventListener('keydown', function(e) {
+        // F12
+        if (e.keyCode === 123) { e.preventDefault(); return false; }
+        // Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+U, Ctrl+S, Ctrl+A
+        if (e.ctrlKey && (e.shiftKey && (e.keyCode === 73 || e.keyCode === 74) || e.keyCode === 85 || e.keyCode === 83 || e.keyCode === 65 || e.keyCode === 67 || e.keyCode === 88)) {
+            e.preventDefault();
+            return false;
+        }
+    });
+
+    // Anti-Debugging Loop (Παγώνει τη σελίδα αν ανοίξουν τα DevTools)
+    setInterval(function() {
+        const start = new Date();
+        debugger;
+        const end = new Date();
+        if (end - start > 100) {
+            while (true) { console.log("Security Breach"); }
+        }
+    }, 500);
+  })();
+</script>
+</body>
+</html>
